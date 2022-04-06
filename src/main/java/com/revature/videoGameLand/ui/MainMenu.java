@@ -11,7 +11,7 @@ public class MainMenu implements IMenu {
 
         while (!exit) {
             System.out.println("\nWelcome to Jon's VideoGameLand!");
-            System.out.println("[1] View all Nintendo Switch video games");
+            System.out.println("[1] View all video games");
             System.out.println("[2] Leave a review");
             System.out.println("[x] Exit");
 
@@ -19,7 +19,7 @@ public class MainMenu implements IMenu {
             input = scan.next().charAt(0);
             switch (input) {
                 case '1':
-                    new NintendoSwitchMenu().start();
+                    new VideoGameMenu().start();
                     break;
                 case '2':
                     break;

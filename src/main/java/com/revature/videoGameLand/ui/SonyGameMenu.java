@@ -1,4 +1,4 @@
 package com.revature.videoGameLand.ui;
 
-public class GameConsoleMenu {
+public class SonyGameMenu {
 }
