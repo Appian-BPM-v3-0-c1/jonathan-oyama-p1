@@ -1,4 +1,12 @@
 package com.revature.videoGameLand.ui;
 
-public class UserMenu {
+import java.util.Scanner;
+
+public class UserMenu implements IMenu {
+    @Override
+    public void start() {
+        char input = ' ';
+        boolean exit = false;
+        Scanner scan = new Scanner(System.in);
+    }
 }

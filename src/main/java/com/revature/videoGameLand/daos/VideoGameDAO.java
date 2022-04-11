@@ -18,11 +18,11 @@ public class VideoGameDAO implements CrudDAO<VideoGame> {
         int n = 0;
         try {
             PreparedStatement ps = con.prepareStatement("INSERT INTO videogames (name, stock, price, console, dept_id) VALUES (?, ?, ?, ?, ?)");
-            ps.setString(1, newObj.getGameName());
+            ps.setString(1, newObj.getName());
             ps.setInt(2, newObj.getStock());
-            ps.setFloat(3, newObj.getGamePrice());
+            ps.setFloat(3, newObj.getPrice());
             ps.setString(4, newObj.getConsoleVersion());
-            ps.setInt(5, newObj.getGame_dept_id());
+            ps.setInt(5, newObj.getDept_id());
 
             n = ps.executeUpdate();
         } catch (SQLException e) {
@@ -43,11 +43,11 @@ public class VideoGameDAO implements CrudDAO<VideoGame> {
                 VideoGame videogame = new VideoGame();
 
                 videogame.setId(rs.getInt("id"));
-                videogame.setGameName(rs.getString("name"));
+                videogame.setName(rs.getString("name"));
                 videogame.setStock(rs.getInt("stock"));
-                videogame.setGamePrice(rs.getFloat("price"));
+                videogame.setPrice(rs.getFloat("price"));
                 videogame.setConsoleVersion(rs.getString("console"));
-                videogame.setGame_dept_id(rs.getInt("dept_id"));
+                videogame.setDept_id(rs.getInt("dept_id"));
 
                 videoGameList.add(videogame);
             }

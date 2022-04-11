@@ -2,22 +2,22 @@ package com.revature.videoGameLand.models;
 
 public class VideoGame {
     private int id;
-    private String gameName;
+    private String name;
     private int stock;
-    private float gamePrice;
-    private String consoleVersion;
-    private int game_dept_id;
+    private float price;
+    private String console;
+    private int dept_id;
 
     public VideoGame() {
     }
 
-    public VideoGame(int id, String gameName, int stock, float gamePrice, String consoleVersion, int game_dept_id) {
+    public VideoGame(int id, String name, int stock, float price, String console, int dept_id) {
         this.id = id;
-        this.gameName = gameName;
+        this.name = name;
         this.stock = stock;
-        this.gamePrice = gamePrice;
-        this.consoleVersion = consoleVersion;
-        this.game_dept_id = game_dept_id;
+        this.price = price;
+        this.console = console;
+        this.dept_id = dept_id;
     }
 
     public int getId() {
@@ -28,12 +28,12 @@ public class VideoGame {
         this.id = id;
     }
 
-    public String getGameName() {
-        return gameName;
+    public String getName() {
+        return name;
     }
 
-    public void setGameName(String gameName) {
-        this.gameName = gameName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getStock() {
@@ -44,35 +44,35 @@ public class VideoGame {
         this.stock = stock;
     }
 
-    public float getGamePrice() {
-        return gamePrice;
+    public float getPrice() {
+        return price;
     }
 
-    public void setGamePrice(float gamePrice) {
-        this.gamePrice = gamePrice;
+    public void setPrice(float price) {
+        this.price = price;
     }
 
     public String getConsoleVersion() {
-        return consoleVersion;
+        return console;
     }
 
-    public void setConsoleVersion(String consoleVersion) {
-        this.consoleVersion = consoleVersion;
+    public void setConsoleVersion(String console) {
+        this.console = console;
     }
 
-    public int getGame_dept_id() {
-        return game_dept_id;
+    public int getDept_id() {
+        return dept_id;
     }
 
-    public void setGame_dept_id(int game_dept_id) {
-        this.game_dept_id = game_dept_id;
+    public void setDept_id(int dept_id) {
+        this.dept_id = dept_id;
     }
 
     @Override
     public String toString() {
-        return "\nId: " + id + "\nGame Name: " + gameName + "\nStock: " + stock +
-                "\nPrice: $" + gamePrice +
-                "\nConsole Version: " + consoleVersion +
-                "\nGame_dept_id: " + game_dept_id;
+        return "\nId: " + id + "\nGame Name: " + name + "\nStock: " + stock +
+                "\nPrice: $" + price +
+                "\nConsole Version: " + console +
+                "\nGame_dept_id: " + dept_id;
     }
 }

@@ -53,7 +53,7 @@ public class VideoGameMenu implements IMenu {
 
         while (!exit) {
             System.out.print("\nEnter in name of new game: ");
-            game.setGameName(scan.nextLine().toLowerCase());
+            game.setName(scan.nextLine().toLowerCase());
             scan = new Scanner(System.in);
 
             System.out.print("\nEnter in amount of game in stock: ");
@@ -61,14 +61,15 @@ public class VideoGameMenu implements IMenu {
             scan.nextLine();
 
             System.out.print("\nEnter in price of new game: ");
-            game.setGamePrice(scan.nextFloat());
+            game.setPrice(scan.nextFloat());
             scan.nextLine();
 
             System.out.println("\nEnter in console version of the game: ");
             game.setConsoleVersion(scan.nextLine().toLowerCase());
+            scan = new Scanner(System.in);
 
             System.out.println("\nEnter in ID number of the store holding the game: ");
-            game.setGame_dept_id(scan.nextInt());
+            game.setDept_id(scan.nextInt());
 
             while (!confirm) {
                 System.out.println("\nIs this correct? (y/n)");
@@ -106,7 +107,7 @@ public class VideoGameMenu implements IMenu {
         else {
             while (true) {
                 for (int i = 0; i < videoGameList.size(); i++) {
-                    System.out.println("\n[" + i + "] " + videoGameList.get(i).getGameName());
+                    System.out.println("\n[" + i + "] " + videoGameList.get(i).getName());
                 }
                 System.out.println("\nSelect a video game to view amount in stock");
                 input = scan.nextInt();
@@ -117,13 +118,6 @@ public class VideoGameMenu implements IMenu {
                     break;
                 }
             }
-
-            //System.out.println(videoGameList.get(input));
-
-            /*for (VideoGame game : videoGameList) {
-                System.out.println(game);
-            }
-            */
         }
     }
     /*

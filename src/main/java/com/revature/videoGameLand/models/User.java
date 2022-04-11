@@ -2,31 +2,32 @@ package com.revature.videoGameLand.models;
 
 public class User {
     private int id;
+    private boolean admin;
     private String firstName;
     private String lastName;
     private String email;
     private String userName;
     private String password;
-    private String streetAddress;
+    private String street;
     private String city;
     private String state;
-    private int zip;
-    private boolean admin;
+    private int zipCode;
 
     public User() {
     }
 
-    public User(int id, String firstName, String lastName, String email, String userName, String password, String streetAddress, String city, String state, int zip) {
+    public User(int id, boolean admin, String firstName, String lastName, String email, String userName, String password, String street, String city, String state, int zipCode) {
         this.id = id;
+        this.admin = admin;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.userName = userName;
         this.password = password;
-        this.streetAddress = streetAddress;
+        this.street = street;
         this.city = city;
         this.state = state;
-        this.zip = zip;
+        this.zipCode = zipCode;
     }
 
     public int getId() {
@@ -35,6 +36,14 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
 
     public String getFirstName() {
@@ -77,12 +86,12 @@ public class User {
         this.password = password;
     }
 
-    public String getStreetAddress() {
-        return streetAddress;
+    public String getStreet() {
+        return street;
     }
 
-    public void setStreetAddress(String streetAddress) {
-        this.streetAddress = streetAddress;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     public String getCity() {
@@ -101,19 +110,11 @@ public class User {
         this.state = state;
     }
 
-    public int getZip() {
-        return zip;
+    public int getZipCode() {
+        return zipCode;
     }
 
-    public void setZip(int zip) {
-        this.zip = zip;
-    }
-
-    public boolean isAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
+    public void setZipCode(int zipCode) {
+        this.zipCode = zipCode;
     }
 }
