@@ -8,11 +8,12 @@ public class MainMenu implements IMenu {
         char input = ' ';
         boolean exit = false;
         Scanner scan = new Scanner(System.in);
+        //new UserMenu();
 
         while (!exit) {
             System.out.println("\nWelcome to Jon's VideoGameLand!");
-            System.out.println("[1] View all video games");
-            System.out.println("[2] Leave a review");
+            System.out.println("[1] Go to video games menu");
+            System.out.println("[2] Go to user profile menu");
             System.out.println("[x] Exit");
 
             System.out.print("\nEnter: ");
