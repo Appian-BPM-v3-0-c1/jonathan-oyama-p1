@@ -1,6 +1,6 @@
 package com.revature.videoGameLand.models;
 
-public class User {
+public class Customer {
     private int id;
     private boolean admin;
     private String firstName;
@@ -14,10 +14,10 @@ public class User {
     private String state;
     private int zipCode;
 
-    public User() {
+    public Customer() {
     }
 
-    public User(int id, boolean admin, String firstName, String lastName, String email, String userName, String password, int houseNumber, String streetName, String city, String state, int zipCode) {
+    public Customer(int id, boolean admin, String firstName, String lastName, String email, String userName, String password, int houseNumber, String streetName, String city, String state, int zipCode) {
         this.id = id;
         this.admin = admin;
         this.firstName = firstName;
@@ -126,17 +126,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "\nid=" + id +
-                "\nAdmin=" + admin +
-                "\nFirst Name='" + firstName + '\'' +
-                "\nLast Name='" + lastName + '\'' +
-                "\nEmail='" + email + '\'' +
-                "\nUser Name='" + userName + '\'' +
-                "\nPassword='" + password + '\'' +
-                "\nHouse Number=" + houseNumber +
-                "\nStreet Name='" + streetName + '\'' +
-                "\nCity='" + city + '\'' +
-                "\nState='" + state + '\'' +
-                "\nZip Code=" + zipCode;
+        return "Username : " + userName;
     }
 }

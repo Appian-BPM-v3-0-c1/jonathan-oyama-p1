@@ -5,7 +5,6 @@ import com.revature.videoGameLand.daos.VideoGameDAO;
 import com.revature.videoGameLand.models.VideoGame;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class VideoGameMenu implements IMenu {

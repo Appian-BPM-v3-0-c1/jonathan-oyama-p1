@@ -1,40 +1,49 @@
 package com.revature.videoGameLand.ui;
+import com.revature.videoGameLand.models.Customer;
 
-import com.revature.videoGameLand.daos.CrudDAO;
-import com.revature.videoGameLand.daos.UserDAO;
-import com.revature.videoGameLand.models.User;
-
-import java.util.List;
 import java.util.Scanner;
 
 public class MainMenu implements IMenu {
-    CrudDAO<User> crudDAO = new UserDAO();
+    private final Customer customer;
+
+    public MainMenu(Customer customer) {
+        this.customer = customer;
+    }
+
     @Override
     public void start() {
+        /* get user input */
         char input = ' ';
+
+        /* exit flag */
         boolean exit = false;
+
+        /* to get user input */
         Scanner scan = new Scanner(System.in);
+
+        /* while exit is not true */
         while (!exit) {
             System.out.println("\nWelcome to Jon's VideoGameLand!");
-            // Implement code below after UserDAO/User menu is finished
-            if (firstTimeCheck()) {
-                input = '2';
-            }
-            else {
-                System.out.println("[1] Go to video games menu");
-                System.out.println("[2] Go to user profile menu");
-                System.out.println("[x] Exit");
+            System.out.println("[1] Go to video games menu");
+            System.out.println("[2] Go to dept admin menu");
+            System.out.println("[x] Exit");
 
-                System.out.print("\nEnter: ");
-                input = scan.next().charAt(0);
-            }
+            System.out.print("\nEnter: ");
+            input = scan.next().charAt(0);
 
             switch (input) {
                 case '1':
                     new VideoGameMenu().start();
                     break;
                 case '2':
-                    new UserMenu().start();
+                    if (!customer.isAdmin()) {
+                        System.out.println("Cannot enter dept admin menu.");
+                        System.out.println("User is not a department store database administrator!");
+                    }
+                    else {
+                        System.out.println("Entering dept admin menu...");
+                        System.out.println("Exiting dept admin menu...");
+                    }
                     break;
                 case 'x':
                     exit = true;
@@ -45,15 +54,4 @@ public class MainMenu implements IMenu {
             }
         }
     }
-
-    private boolean firstTimeCheck() {
-        int input = 0;
-        List<User> userList = crudDAO.findAll();
-        System.out.println();
-        if (userList.isEmpty()) {
-            return true;
-        }
-        return false;
-    }
-
 }
