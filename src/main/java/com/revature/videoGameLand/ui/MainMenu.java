@@ -14,23 +14,20 @@ public class MainMenu implements IMenu {
         char input = ' ';
         boolean exit = false;
         Scanner scan = new Scanner(System.in);
-        //new UserMenu();
-
         while (!exit) {
             System.out.println("\nWelcome to Jon's VideoGameLand!");
             // Implement code below after UserDAO/User menu is finished
-            /*if (firstTimeCheck()) {
-                input = 2;
+            if (firstTimeCheck()) {
+                input = '2';
             }
-            else {*/
+            else {
                 System.out.println("[1] Go to video games menu");
                 System.out.println("[2] Go to user profile menu");
                 System.out.println("[x] Exit");
 
                 System.out.print("\nEnter: ");
                 input = scan.next().charAt(0);
-            // Implement code below after UserDAO/User menu is finished
-            //}
+            }
 
             switch (input) {
                 case '1':

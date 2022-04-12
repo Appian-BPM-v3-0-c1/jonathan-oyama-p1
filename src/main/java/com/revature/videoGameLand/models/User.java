@@ -8,7 +8,8 @@ public class User {
     private String email;
     private String userName;
     private String password;
-    private String street;
+    private int houseNumber;
+    private String streetName;
     private String city;
     private String state;
     private int zipCode;
@@ -16,7 +17,7 @@ public class User {
     public User() {
     }
 
-    public User(int id, boolean admin, String firstName, String lastName, String email, String userName, String password, String street, String city, String state, int zipCode) {
+    public User(int id, boolean admin, String firstName, String lastName, String email, String userName, String password, int houseNumber, String streetName, String city, String state, int zipCode) {
         this.id = id;
         this.admin = admin;
         this.firstName = firstName;
@@ -24,7 +25,8 @@ public class User {
         this.email = email;
         this.userName = userName;
         this.password = password;
-        this.street = street;
+        this.houseNumber = houseNumber;
+        this.streetName = streetName;
         this.city = city;
         this.state = state;
         this.zipCode = zipCode;
@@ -86,12 +88,16 @@ public class User {
         this.password = password;
     }
 
-    public String getStreet() {
-        return street;
+    public int getHouseNumber() {return houseNumber; }
+
+    public void setHouseNumber(int houseNumber) { this.houseNumber = houseNumber; }
+
+    public String getStreetName() {
+        return streetName;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
+    public void setStreetName(String streetName) {
+        this.streetName = streetName;
     }
 
     public String getCity() {
@@ -116,5 +122,21 @@ public class User {
 
     public void setZipCode(int zipCode) {
         this.zipCode = zipCode;
+    }
+
+    @Override
+    public String toString() {
+        return "\nid=" + id +
+                "\nAdmin=" + admin +
+                "\nFirst Name='" + firstName + '\'' +
+                "\nLast Name='" + lastName + '\'' +
+                "\nEmail='" + email + '\'' +
+                "\nUser Name='" + userName + '\'' +
+                "\nPassword='" + password + '\'' +
+                "\nHouse Number=" + houseNumber +
+                "\nStreet Name='" + streetName + '\'' +
+                "\nCity='" + city + '\'' +
+                "\nState='" + state + '\'' +
+                "\nZip Code=" + zipCode;
     }
 }

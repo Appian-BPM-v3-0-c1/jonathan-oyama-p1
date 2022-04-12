@@ -17,17 +17,18 @@ public class UserDAO implements CrudDAO<User>{
     public int save(User newObj) {
         int n = 0;
         try {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO users (admin, firstname, lastname, email, username, password, street, city, state, zipcode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement ps = con.prepareStatement("INSERT INTO users (admin, firstname, lastname, email, username, password, housenumber, streetname, city, state, zipcode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             ps.setBoolean(1, newObj.isAdmin());
             ps.setString(2, newObj.getFirstName());
             ps.setString(3, newObj.getLastName());
             ps.setString(4, newObj.getEmail());
             ps.setString(5, newObj.getUserName());
             ps.setString(6, newObj.getPassword());
-            ps.setString(7, newObj.getStreet());
-            ps.setString(8, newObj.getCity());
-            ps.setString(9, newObj.getState());
-            ps.setInt(10, newObj.getZipCode());
+            ps.setInt(7, newObj.getHouseNumber());
+            ps.setString(8, newObj.getStreetName());
+            ps.setString(9, newObj.getCity());
+            ps.setString(10, newObj.getState());
+            ps.setInt(11, newObj.getZipCode());
 
             n = ps.executeUpdate();
         } catch (SQLException e) {
@@ -41,7 +42,7 @@ public class UserDAO implements CrudDAO<User>{
     public List<User> findAll() {
         List<User> userList = new ArrayList<>();
 
-        try {PreparedStatement ps = con.prepareStatement("SELECT * FROM videogames");
+        try {PreparedStatement ps = con.prepareStatement("SELECT * FROM users");
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -54,7 +55,7 @@ public class UserDAO implements CrudDAO<User>{
                 user.setEmail("email");
                 user.setUserName("username");
                 user.setPassword("password");
-                user.setStreet("street");
+                user.setStreetName("streetname");
                 user.setCity("city");
                 user.setState("state");
                 user.setZipCode(rs.getInt("zipcode"));

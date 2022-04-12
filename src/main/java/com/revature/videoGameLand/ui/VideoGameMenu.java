@@ -19,8 +19,7 @@ public class VideoGameMenu implements IMenu {
         while (!exit) {
             System.out.println("\nWelcome to Video Game Section!");
             System.out.println("[1] View all video games");
-            System.out.println("[2] Search for games");
-            System.out.println("[3] Create new video game");
+            System.out.println("[2] Create new video game");
             System.out.println("[x] Exit");
 
             System.out.print("\nEnter: ");
@@ -30,8 +29,6 @@ public class VideoGameMenu implements IMenu {
                     viewAllVideoGames();
                     break;
                 case '2':
-                    break;
-                case '3':
                     createGame();
                     break;
                 case 'x':
