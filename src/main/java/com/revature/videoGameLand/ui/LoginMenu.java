@@ -17,7 +17,6 @@ public class LoginMenu implements IMenu {
     @Override
     public void start() {
         char input = ' ';
-        boolean exit = false;
         exit: {
             while (true) {
                 System.out.println("\nWelcome to the Login Menu!");
@@ -27,6 +26,7 @@ public class LoginMenu implements IMenu {
                 else {
                     System.out.println("[1] Log in");
                     System.out.println("[2] Create new user account");
+                    System.out.println("[3] Account Manager");
                     System.out.println("[x] Exit");
 
                     System.out.println("\nEnter: ");
@@ -39,6 +39,9 @@ public class LoginMenu implements IMenu {
                     case '2':
                         createAccount();
                         break;
+                    case '3':
+                        accountManagementLogin();
+                        break;
                     case 'x':
                         break exit;
                     default:
@@ -50,7 +53,9 @@ public class LoginMenu implements IMenu {
     }
 
     private void createAccount() {
+        /* get user input */
         char input = ' ';
+        /* exit flag */
         boolean exit = false;
         boolean confirm = false;
         String dataString = "";
@@ -58,60 +63,79 @@ public class LoginMenu implements IMenu {
         String password1 = "";
         String password2 = "";
         int dataInt = 0;
+        /* to get user input */
         Scanner scan = new Scanner(System.in);
         Customer customer = new Customer();
 
         System.out.println("\nCreating account...");
 
+        /* while exit is not true */
         while (!exit) {
+            /* always creates admin account for first user created */
             if (customerService.firstTimeCheck()) {
                 System.out.println("\nCreating new admin account...");
-                customer.setAdmin(true);
+                customer.setManager(true);
             }
+            // all other users are customers unless given privileges by the
+            // manager
             else {
-                customer.setAdmin(false);
+                customer.setManager(false);
             }
             while (true) {
                 System.out.println("\nEnter in first name: ");
                 dataString = scan.nextLine();
                 scan = new Scanner(System.in);
-                if (customerService.isValidName(dataString)) {
+                if (!customerService.isValidName(dataString)) {
+                    System.out.println("\nInvalid first name!");
+                }
+                else {
+                    // If this is a valid first name with at least two characters, then
+                    // set the last name to this value
                     customer.setFirstName(dataString);
                     break;
                 }
-                System.out.println("\nInvalid first name!");
             }
             while (true) {
                 System.out.println("\nEnter in last name: ");
                 dataString = scan.nextLine();
                 scan = new Scanner(System.in);
-                if (customerService.isValidName(dataString)) {
+                if (!customerService.isValidName(dataString)) {
+                    System.out.println("\nInvalid last name!");
+                }
+                else {
+                    // If this is a valid last name with at least two characters, then
+                    // set the last name to this value
                     customer.setLastName(dataString);
                     break;
                 }
-                System.out.println("\nInvalid last name!");
             }
             while (true) {
                 System.out.println("\nEnter in e-mail address: ");
                 dataString = scan.nextLine();
                 scan = new Scanner(System.in);
-                if (customerService.isValidEmail(dataString)) {
+                if (!customerService.isValidEmail(dataString)) {
+                    System.out.println("\nInvalid e-mail address!");
+                }
+                else {
+                    // If this is a valid email, then
+                    // set the email address to this value
                     customer.setEmail(dataString);
                     break;
                 }
-                System.out.println("\nInvalid e-mail address!");
             }
             while (true) {
                 System.out.println("\nEnter in username: ");
                 username = scan.next();
 
                 if (!customerService.isDupUsername(username)) {
-                    if (customerService.isValidUsername(username)) {
-                        customer.setUserName(username);
-                        break;
-                    } else {
+                    if (!customerService.isValidUsername(username)) {
                         System.out.println("\nInvalid username :(");
                         System.out.println("\nUsername must contain at least eight characters");
+                    } else {
+                        // If this is a valid username and not a duplicate, then
+                        // set the username to this value
+                        customer.setUserName(username);
+                        break;
                     }
                 } else {
                     System.out.println("\nDuplicate username :(");
@@ -222,20 +246,70 @@ public class LoginMenu implements IMenu {
     }
 
     private void login() {
-        while (true) {
-            System.out.println("\nUsername: ");
-            customer.setUserName(scan.next());
+        System.out.println("\nUsername: ");
+        customer.setUserName(scan.next());
 
-            System.out.println("\nPassword: ");
-            customer.setPassword(scan.next());
+        System.out.println("\nPassword: ");
+        customer.setPassword(scan.next());
 
-            if (customerService.isValidLogin(customer)) {
-                customer.setId((customerService.getCustomerDAO().getUserId(customer.getUserName())));
-                customer.setAdmin(customerService.getCustomerDAO().getAdmin(customer.getUserName()));
-                new MainMenu(customer).start();
-                break;
-            } else {
-                System.out.println("\nInvalid login");
+        if (customerService.isValidLogin(customer)) {
+            customer.setId((customerService.getCustomerDAO().getUserId(customer.getUserName())));
+            customer.setManager(customerService.getCustomerDAO().getManager(customer.getUserName()));
+            new MainMenu(customer).start();
+        } else {
+            System.out.println("\nInvalid login");
+        }
+    }
+
+    private void accountManagementLogin() {
+        // User types in username and password
+        System.out.println("\nUsername: ");
+        customer.setUserName(scan.next());
+
+        System.out.println("\nPassword: ");
+        customer.setPassword(scan.next());
+        // If the username and password matches the credentials of a
+        // manager, then this is a valid manager
+        if (customerService.isValidAdmin(customer)) {
+            // For valid managers, we start the account management submenu
+            accountManager();
+        } else {
+            System.out.println("\nInvalid login");
+        }
+    }
+
+    public void accountManager() {
+        /* get user input */
+        char input = ' ';
+        /* while exit is not true */
+        exit:
+        {
+            while (true) {
+                System.out.println("\nAccount Management");
+                System.out.println("[1] Print all user names");
+                //  System.out.println("[2] Search user database");
+                //  System.out.println("[3] Change admin privileges");
+                //  System.out.println("[4] Remove user");
+                System.out.println("[x] Exit");
+
+                System.out.println("\nEnter: ");
+                input = scan.next().charAt(0);
+                switch (input) {
+                    case '1':
+                        System.out.println(customerService.getCustomerDAO().findAll());
+                        break;
+                    case '2':
+                        break;
+                    case '3':
+                        break;
+                    case '4':
+                        break;
+                    case 'x':
+                        break exit;
+                    default:
+                        System.out.println("\nInvalid input!");
+                        break;
+                }
             }
         }
     }

@@ -2,7 +2,7 @@ package com.revature.videoGameLand.models;
 
 public class Customer {
     private int id;
-    private boolean admin;
+    private boolean manager;
     private String firstName;
     private String lastName;
     private String email;
@@ -17,9 +17,9 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(int id, boolean admin, String firstName, String lastName, String email, String userName, String password, int houseNumber, String streetName, String city, String state, int zipCode) {
+    public Customer(int id, boolean manager, String firstName, String lastName, String email, String userName, String password, int houseNumber, String streetName, String city, String state, int zipCode) {
         this.id = id;
-        this.admin = admin;
+        this.manager = manager;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -40,12 +40,12 @@ public class Customer {
         this.id = id;
     }
 
-    public boolean isAdmin() {
-        return admin;
+    public boolean isManager() {
+        return manager;
     }
 
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
+    public void setManager(boolean manager) {
+        this.manager = manager;
     }
 
     public String getFirstName() {
@@ -123,9 +123,16 @@ public class Customer {
     public void setZipCode(int zipCode) {
         this.zipCode = zipCode;
     }
-
     @Override
     public String toString() {
-        return "Username : " + userName;
+        return "\n\nID: " + id +
+                "\nUsername : " + userName +
+                "\nFirst Name: " + firstName +
+                "\nLast Name: " + lastName +
+                "\nStreet Address: " + houseNumber +
+                " " + streetName +
+                "\nCity: " + city +
+                "\nState: " + state +
+                "\nZip Code: " + zipCode;
     }
 }

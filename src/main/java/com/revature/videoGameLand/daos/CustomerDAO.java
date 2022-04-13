@@ -17,8 +17,8 @@ public class CustomerDAO implements CrudDAO<Customer>{
     public int save(Customer newObj) {
         int n = 0;
         try {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO customers (admin, firstname, lastname, email, username, password, housenumber, streetname, city, state, zipcode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            ps.setBoolean(1, newObj.isAdmin());
+            PreparedStatement ps = con.prepareStatement("INSERT INTO customers (manager, firstname, lastname, email, username, password, housenumber, streetname, city, state, zipcode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            ps.setBoolean(1, newObj.isManager());
             ps.setString(2, newObj.getFirstName());
             ps.setString(3, newObj.getLastName());
             ps.setString(4, newObj.getEmail());
@@ -37,7 +37,6 @@ public class CustomerDAO implements CrudDAO<Customer>{
         return n;
     }
 
-
     @Override
     public List<Customer> findAll() {
         List<Customer> customerList = new ArrayList<>();
@@ -49,12 +48,13 @@ public class CustomerDAO implements CrudDAO<Customer>{
                 Customer customer = new Customer();
 
                 customer.setId(rs.getInt("id"));
-                customer.setAdmin(rs.getBoolean("admin"));
+                customer.setManager(rs.getBoolean("manager"));
                 customer.setFirstName(rs.getString("firstname"));
                 customer.setLastName(rs.getString("lastname"));
                 customer.setEmail(rs.getString("email"));
                 customer.setUserName(rs.getString("username"));
                 customer.setPassword(rs.getString("password"));
+                customer.setHouseNumber(rs.getInt("housenumber"));
                 customer.setStreetName(rs.getString("streetname"));
                 customer.setCity(rs.getString("city"));
                 customer.setState(rs.getString("state"));
@@ -71,6 +71,34 @@ public class CustomerDAO implements CrudDAO<Customer>{
 
     @Override
     public Customer findById(String Id) {
+        /*
+        Customer customer = new Customer();
+        int customerID = Integer.parseInt(Id);
+        try {PreparedStatement ps = con.prepareStatement("SELECT * FROM customers");
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Customer customer = new Customer();
+
+                customer.setId(rs.getInt("id"));
+                customer.setManager(rs.getBoolean("manager"));
+                customer.setFirstName(rs.getString("firstname"));
+                customer.setLastName(rs.getString("lastname"));
+                customer.setEmail(rs.getString("email"));
+                customer.setUserName(rs.getString("username"));
+                customer.setPassword(rs.getString("password"));
+                customer.setStreetName(rs.getString("streetname"));
+                customer.setCity(rs.getString("city"));
+                customer.setState(rs.getString("state"));
+                customer.setZipCode(rs.getInt("zipcode"));
+
+                customerList.add(customer);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customerList;*/
         return null;
     }
 
@@ -116,20 +144,20 @@ public class CustomerDAO implements CrudDAO<Customer>{
         return id;
     }
 
-    public boolean getAdmin(String username) {
-        boolean adminPass = false;
+    public boolean getManager(String username) {
+        boolean managerPass = false;
         try {
-            PreparedStatement ps = con.prepareStatement("SELECT (admin) FROM customers where username = ?");
+            PreparedStatement ps = con.prepareStatement("SELECT (manager) FROM customers where username = ?");
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                adminPass = rs.getBoolean("admin");
+                managerPass = rs.getBoolean("manager");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return adminPass;
+        return managerPass;
     }
 }

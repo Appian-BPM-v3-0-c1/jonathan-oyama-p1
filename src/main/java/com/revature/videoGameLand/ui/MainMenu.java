@@ -25,7 +25,6 @@ public class MainMenu implements IMenu {
         while (!exit) {
             System.out.println("\nWelcome to Jon's VideoGameLand!");
             System.out.println("[1] Go to video games menu");
-            System.out.println("[2] Go to dept admin menu");
             System.out.println("[x] Exit");
 
             System.out.print("\nEnter: ");
@@ -34,16 +33,6 @@ public class MainMenu implements IMenu {
             switch (input) {
                 case '1':
                     new VideoGameMenu().start();
-                    break;
-                case '2':
-                    if (!customer.isAdmin()) {
-                        System.out.println("Cannot enter dept admin menu.");
-                        System.out.println("User is not a department store database administrator!");
-                    }
-                    else {
-                        System.out.println("Entering dept admin menu...");
-                        System.out.println("Exiting dept admin menu...");
-                    }
                     break;
                 case 'x':
                     exit = true;

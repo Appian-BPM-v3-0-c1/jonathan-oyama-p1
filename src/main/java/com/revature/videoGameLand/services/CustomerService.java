@@ -56,6 +56,19 @@ public class CustomerService {
         return false;
     }
 
+    public boolean isValidAdmin(Customer customer) {
+        List<Customer> customerList = customerDAO.findAll();
+
+        for (Customer u : customerList) {
+            if (u.getUserName().equals(customer.getUserName())
+                    && u.getPassword().equals(customer.getPassword())
+                    && u.isManager()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public boolean firstTimeCheck() {
         int input = 0;
