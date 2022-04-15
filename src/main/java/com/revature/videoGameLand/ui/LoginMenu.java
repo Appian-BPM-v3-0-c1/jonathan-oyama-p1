@@ -12,7 +12,7 @@ public class LoginMenu implements IMenu {
     private ScInventoryService scInventoryService = new ScInventoryService(new ScInventoryDAO());
     private OInventoryService oInventoryService = new OInventoryService(new OInventoryDAO());
     private OrderHistoryService orderHistoryService = new OrderHistoryService(new OrderHistoryDAO());
-
+    private VideoGameService videoGameService = new VideoGameService(new VideoGameDAO());
     public LoginMenu() {
     }
 
@@ -302,7 +302,9 @@ public class LoginMenu implements IMenu {
             customer.setId((customerService.getCustomerDAO().getUserId(customer.getUserName())));
             customer.setManager(customerService.getCustomerDAO().getManager(customer.getUserName()));
             customer.setCartNumber(customerService.getCustomerDAO().getCartNumber(customer.getUserName()));
-            new MainMenu(customer, customerService).start();
+
+            new MainMenu(customer, customerService, shoppingCartService,
+                    scInventoryService, orderHistoryService, oInventoryService, videoGameService).start();
         } else {
             System.out.println("\nInvalid login");
         }

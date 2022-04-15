@@ -1,14 +1,34 @@
 package com.revature.videoGameLand.ui;
 
-import com.revature.videoGameLand.daos.CrudDAO;
-import com.revature.videoGameLand.daos.VideoGameDAO;
+import com.revature.videoGameLand.models.Customer;
 import com.revature.videoGameLand.models.VideoGame;
+import com.revature.videoGameLand.services.*;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class VideoGameMenu implements IMenu {
-    CrudDAO<VideoGame> crudDAO = new VideoGameDAO();
+    private final ShoppingCartService shoppingCartService;
+    private final ScInventoryService scInventoryService;
+    private final OrderHistoryService orderHistoryService;
+    private final OInventoryService oInventoryService;
+    private final VideoGameService videoGameService;
+    private final Customer customer;
+
+    public VideoGameMenu(ShoppingCartService shoppingCartService,
+                         ScInventoryService scInventoryService,
+                         OrderHistoryService orderHistoryService,
+                         OInventoryService oInventoryService,
+                         VideoGameService videoGameService,
+                         Customer customer) {
+        this.shoppingCartService = shoppingCartService;
+        this.scInventoryService = scInventoryService;
+        this.orderHistoryService = orderHistoryService;
+        this.oInventoryService = oInventoryService;
+        this.videoGameService = videoGameService;
+        this.customer = customer;
+    }
+
     @Override
     public void start() {
         char input = ' ';
@@ -18,7 +38,9 @@ public class VideoGameMenu implements IMenu {
         while (!exit) {
             System.out.println("\nWelcome to Video Game Section!");
             System.out.println("[1] View all video games");
-            System.out.println("[2] Create new video game");
+            if (customer.isManager()) {
+                System.out.println("[2] Create new video game");
+            }
             System.out.println("[x] Exit");
 
             System.out.print("\nEnter: ");
@@ -28,7 +50,13 @@ public class VideoGameMenu implements IMenu {
                     viewAllVideoGames();
                     break;
                 case '2':
-                    createGame();
+                    if (customer.isManager()) {
+                        createGame();
+                    } else {
+                        System.out.println("\nAccess denied.");
+                        System.out.println("\nOnly managers can add video games "
+                            + "to the database!");
+                    }
                     break;
                 case 'x':
                     exit = true;
@@ -75,7 +103,7 @@ public class VideoGameMenu implements IMenu {
                 input = scan.next().charAt(0);
                 switch (input) {
                     case 'y':
-                        crudDAO.save(game);
+                        videoGameService.getVideoGameDAO().save(game);
                         System.out.println("Video game created successfully!");
                         exit = true;
                         confirm = true;
@@ -96,7 +124,7 @@ public class VideoGameMenu implements IMenu {
     private void viewAllVideoGames() {
         int input = 0;
         Scanner scan = new Scanner(System.in);
-        List<VideoGame> videoGameList = crudDAO.findAll();
+        List<VideoGame> videoGameList = videoGameService.getVideoGameDAO().findAll();
         System.out.println();
         if (videoGameList.isEmpty()) {
             System.out.println("No video games in database.");
