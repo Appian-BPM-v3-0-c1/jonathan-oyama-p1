@@ -304,7 +304,8 @@ public class LoginMenu implements IMenu {
             customer.setCartNumber(customerService.getCustomerDAO().getCartNumber(customer.getUserName()));
 
             new MainMenu(customer, customerService, shoppingCartService,
-                    scInventoryService, orderHistoryService, oInventoryService, videoGameService).start();
+                    scInventoryService, orderHistoryService, oInventoryService,
+                    videoGameService).start();
         } else {
             System.out.println("\nInvalid login");
         }

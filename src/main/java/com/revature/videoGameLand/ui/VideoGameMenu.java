@@ -1,6 +1,6 @@
 package com.revature.videoGameLand.ui;
 
-import com.revature.videoGameLand.models.Customer;
+import com.revature.videoGameLand.models.*;
 import com.revature.videoGameLand.models.VideoGame;
 import com.revature.videoGameLand.services.*;
 
@@ -14,19 +14,23 @@ public class VideoGameMenu implements IMenu {
     private final OInventoryService oInventoryService;
     private final VideoGameService videoGameService;
     private final Customer customer;
+    // Code to implement shopping cart
+    private final ShoppingCart shoppingCart;
+
 
     public VideoGameMenu(ShoppingCartService shoppingCartService,
                          ScInventoryService scInventoryService,
                          OrderHistoryService orderHistoryService,
                          OInventoryService oInventoryService,
                          VideoGameService videoGameService,
-                         Customer customer) {
+                         Customer customer, ShoppingCart shoppingCart) {
         this.shoppingCartService = shoppingCartService;
         this.scInventoryService = scInventoryService;
         this.orderHistoryService = orderHistoryService;
         this.oInventoryService = oInventoryService;
         this.videoGameService = videoGameService;
         this.customer = customer;
+        this.shoppingCart = shoppingCart;
     }
 
     @Override
@@ -57,6 +61,9 @@ public class VideoGameMenu implements IMenu {
                         System.out.println("\nOnly managers can add video games "
                             + "to the database!");
                     }
+                    break;
+                case '3':
+
                     break;
                 case 'x':
                     exit = true;
@@ -145,16 +152,7 @@ public class VideoGameMenu implements IMenu {
             }
         }
     }
-    /*
-    private void listFiveVideoGames() {
-        int count = 5;
-        List<VideoGame> videoGameList = crudDAO.findAll();
+    private void viewShoppingCart() {
 
-        for (int i = 0; i < videoGameList.size(); i++) {
-            if (i < count) {
-                System.out.println(videoGameList.get(i));
-            }
-        }
     }
-    */
 }

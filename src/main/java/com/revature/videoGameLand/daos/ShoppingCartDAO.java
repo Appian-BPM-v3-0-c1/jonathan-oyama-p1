@@ -1,6 +1,7 @@
 package com.revature.videoGameLand.daos;
 
 import com.revature.videoGameLand.connection.DatabaseConnection;
+import com.revature.videoGameLand.models.Dept;
 import com.revature.videoGameLand.models.ShoppingCart;
 
 import java.sql.Connection;
@@ -54,11 +55,37 @@ public class ShoppingCartDAO implements CrudDAO<ShoppingCart> {
 
     @Override
     public ShoppingCart findById(String Id) {
+
+        try {
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM shopping_cart WHERE id = " + Id);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            ShoppingCart shoppingCart = new ShoppingCart();
+            shoppingCart.setId(rs.getInt("id"));
+            shoppingCart.setOrder_id(rs.getInt("order_id"));
+            shoppingCart.setScInventory_Id(rs.getInt("scinventory_id"));
+            shoppingCart.setTotal(rs.getFloat("total"));
+
+
+            return shoppingCart;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
     public boolean update(ShoppingCart updatedObj) {
+        try {
+            PreparedStatement ps = con.prepareStatement("UPDATE shopping_cart SET " +
+                "total = ? WHERE id = ?");
+            ps.setFloat(1, updatedObj.getTotal());
+            ps.setInt(2,updatedObj.getId());
+            ps.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return false;
     }
 

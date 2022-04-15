@@ -53,6 +53,19 @@ public class ScInventoryDAO implements CrudDAO<ScInventory> {
 
     @Override
     public ScInventory findById(String Id) {
+        try {
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM scinventory WHERE id = " + Id);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            ScInventory scInventory = new ScInventory();
+            scInventory.setId(rs.getInt("id"));
+            scInventory.setName(rs.getString("name"));
+            scInventory.setPrice(rs.getFloat("price"));
+            scInventory.setQuantity(rs.getInt("quantity"));
+            return scInventory;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
