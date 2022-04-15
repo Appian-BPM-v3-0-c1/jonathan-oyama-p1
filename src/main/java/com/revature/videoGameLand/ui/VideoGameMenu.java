@@ -64,8 +64,9 @@ public class VideoGameMenu implements IMenu {
             game.setConsoleVersion(scan.nextLine().toLowerCase());
             scan = new Scanner(System.in);
 
-            System.out.println("\nEnter in ID number of the store holding the game: ");
-            game.setDept_id(scan.nextInt());
+            //System.out.println("\nEnter in ID number of the store holding the game: ");
+            //game.setDept_id(scan.nextInt());
+            game.setDept_id(1);
 
             while (!confirm) {
                 System.out.println("\nIs this correct? (y/n)");

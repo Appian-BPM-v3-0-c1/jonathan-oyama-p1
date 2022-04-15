@@ -71,7 +71,6 @@ public class CustomerService {
 
 
     public boolean firstTimeCheck() {
-        int input = 0;
         List<Customer> userList = customerDAO.findAll();
         System.out.println();
         if (userList.isEmpty()) {

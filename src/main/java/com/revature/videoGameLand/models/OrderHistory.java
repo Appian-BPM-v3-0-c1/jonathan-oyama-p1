@@ -1,22 +1,18 @@
 package com.revature.videoGameLand.models;
 
-import java.sql.Array;
-
-public class ShoppingCart {
+public class OrderHistory {
     private int id;
-    private int order_id;
     private int customer_id;
-    private int scInventory_Id;
+    private int oinventory_id;
     private float total;
 
-    public ShoppingCart() {
+    public OrderHistory() {
     }
 
-    public ShoppingCart(int id, int order_id, int customer_id, int scInventory_Id, float total) {
+    public OrderHistory(int id, int customer_id, int oinventory_id, float total) {
         this.id = id;
-        this.order_id = order_id;
         this.customer_id = customer_id;
-        this.scInventory_Id = scInventory_Id;
+        this.oinventory_id = oinventory_id;
         this.total = total;
     }
 
@@ -28,14 +24,6 @@ public class ShoppingCart {
         this.id = id;
     }
 
-    public int getOrder_id() {
-        return order_id;
-    }
-
-    public void setOrder_id(int order_id) {
-        this.order_id = order_id;
-    }
-
     public int getCustomer_id() {
         return customer_id;
     }
@@ -44,12 +32,12 @@ public class ShoppingCart {
         this.customer_id = customer_id;
     }
 
-    public int getScInventory_Id() {
-        return scInventory_Id;
+    public int getOinventory_id() {
+        return oinventory_id;
     }
 
-    public void setScInventory_Id(int scInventory_Id) {
-        this.scInventory_Id = scInventory_Id;
+    public void setOinventory_id(int oinventory_id) {
+        this.oinventory_id = oinventory_id;
     }
 
     public float getTotal() {
@@ -62,11 +50,10 @@ public class ShoppingCart {
 
     @Override
     public String toString() {
-        return "ShoppingCart{" +
+        return "OrderHistory{" +
                 "id=" + id +
-                ", order_id=" + order_id +
                 ", customer_id=" + customer_id +
-                ", scInventory_Id=" + scInventory_Id +
+                ", oinventory_id=" + oinventory_id +
                 ", total=" + total +
                 '}';
     }

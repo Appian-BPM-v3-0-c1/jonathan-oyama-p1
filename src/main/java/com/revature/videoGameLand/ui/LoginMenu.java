@@ -1,14 +1,19 @@
 package com.revature.videoGameLand.ui;
-import com.revature.videoGameLand.models.Customer;
-import com.revature.videoGameLand.services.CustomerService;
+import com.revature.videoGameLand.daos.*;
+import com.revature.videoGameLand.models.*;
+import com.revature.videoGameLand.services.*;
 
 import java.util.Scanner;
 
 public class LoginMenu implements IMenu {
-    private CustomerService customerService;
+    private CustomerService customerService = new CustomerService(new CustomerDAO());
+    private DeptService deptService = new DeptService(new DeptDAO());
+    private ShoppingCartService shoppingCartService = new ShoppingCartService(new ShoppingCartDAO());
+    private ScInventoryService scInventoryService = new ScInventoryService(new ScInventoryDAO());
+    private OInventoryService oInventoryService = new OInventoryService(new OInventoryDAO());
+    private OrderHistoryService orderHistoryService = new OrderHistoryService(new OrderHistoryDAO());
 
-    public LoginMenu(CustomerService customerService) {
-        this.customerService = customerService;
+    public LoginMenu() {
     }
 
     Scanner scan = new Scanner(System.in);
@@ -26,7 +31,6 @@ public class LoginMenu implements IMenu {
                 else {
                     System.out.println("[1] Log in");
                     System.out.println("[2] Create new user account");
-                    System.out.println("[3] Account Manager");
                     System.out.println("[x] Exit");
 
                     System.out.println("\nEnter: ");
@@ -38,9 +42,6 @@ public class LoginMenu implements IMenu {
                         break;
                     case '2':
                         createAccount();
-                        break;
-                    case '3':
-                        accountManagementLogin();
                         break;
                     case 'x':
                         break exit;
@@ -58,6 +59,7 @@ public class LoginMenu implements IMenu {
         /* exit flag */
         boolean exit = false;
         boolean confirm = false;
+        boolean firstAccount = false;
         String dataString = "";
         String username = "";
         String password1 = "";
@@ -66,13 +68,32 @@ public class LoginMenu implements IMenu {
         /* to get user input */
         Scanner scan = new Scanner(System.in);
         Customer customer = new Customer();
+        Dept dept = new Dept();
+        ShoppingCart shoppingCart = new ShoppingCart();
+        ScInventory scInventory = new ScInventory();
+        OInventory oInventory = new OInventory();
+        OrderHistory orderHistory = new OrderHistory();
+        int cartsDistributed;
 
         System.out.println("\nCreating account...");
 
         /* while exit is not true */
         while (!exit) {
             /* always creates admin account for first user created */
+            if (deptService.firstTimeCheck()) {
+                dept.setId(1);
+                dept.setName("Video Game Land South Bay");
+                dept.setCarts_distributed(0);
+                cartsDistributed = dept.getCarts_distributed();
+                deptService.getDeptDAO().save(dept);
+                firstAccount = true;
+            }
+            else {
+                dept = deptService.getDeptDAO().findById("1");
+                cartsDistributed = dept.getCarts_distributed();
+            }
             if (customerService.firstTimeCheck()) {
+
                 System.out.println("\nCreating new admin account...");
                 customer.setManager(true);
             }
@@ -229,7 +250,33 @@ public class LoginMenu implements IMenu {
                 input = scan.next().charAt(0);
                 switch (input) {
                     case 'y':
+                        cartsDistributed++;
+                        dept.setCarts_distributed(cartsDistributed);
+                        customer.setCartNumber(dept.getCarts_distributed());
                         customerService.getCustomerDAO().save(customer);
+                        if (firstAccount) {
+                            deptService.getDeptDAO().update(dept);
+                        }
+                        scInventory.setId(cartsDistributed);
+                        scInventory.setName("empty");
+                        scInventory.setPrice(0);
+                        scInventory.setQuantity(0);
+                        scInventoryService.getScInventoryDAO().save(scInventory);
+                        oInventory.setId(cartsDistributed);
+                        oInventory.setName("empty");
+                        oInventory.setPrice(0);
+                        oInventory.setQuantity(0);
+                        oInventoryService.getOInventoryDAO().save(oInventory);
+                        orderHistory.setId(cartsDistributed);
+                        orderHistory.setCustomer_id(cartsDistributed);
+                        orderHistory.setOinventory_id(cartsDistributed);
+                        orderHistory.setTotal(0);
+                        orderHistoryService.getOrderHistoryDAO().save(orderHistory);
+                        shoppingCart.setOrder_id(cartsDistributed);
+                        shoppingCart.setCustomer_id(cartsDistributed);
+                        shoppingCart.setScInventory_Id(cartsDistributed);
+                        shoppingCart.setTotal(0);
+                        shoppingCartService.getShoppingCartDAO().save(shoppingCart);
                         System.out.println("New user account created successfully!");
                         exit = true;
                         confirm = true;
@@ -251,66 +298,13 @@ public class LoginMenu implements IMenu {
 
         System.out.println("\nPassword: ");
         customer.setPassword(scan.next());
-
         if (customerService.isValidLogin(customer)) {
             customer.setId((customerService.getCustomerDAO().getUserId(customer.getUserName())));
             customer.setManager(customerService.getCustomerDAO().getManager(customer.getUserName()));
-            new MainMenu(customer).start();
+            customer.setCartNumber(customerService.getCustomerDAO().getCartNumber(customer.getUserName()));
+            new MainMenu(customer, customerService).start();
         } else {
             System.out.println("\nInvalid login");
-        }
-    }
-
-    private void accountManagementLogin() {
-        // User types in username and password
-        System.out.println("\nUsername: ");
-        customer.setUserName(scan.next());
-
-        System.out.println("\nPassword: ");
-        customer.setPassword(scan.next());
-        // If the username and password matches the credentials of a
-        // manager, then this is a valid manager
-        if (customerService.isValidAdmin(customer)) {
-            // For valid managers, we start the account management submenu
-            accountManager();
-        } else {
-            System.out.println("\nInvalid login");
-        }
-    }
-
-    public void accountManager() {
-        /* get user input */
-        char input = ' ';
-        /* while exit is not true */
-        exit:
-        {
-            while (true) {
-                System.out.println("\nAccount Management");
-                System.out.println("[1] Print all user names");
-                //  System.out.println("[2] Search user database");
-                //  System.out.println("[3] Change admin privileges");
-                //  System.out.println("[4] Remove user");
-                System.out.println("[x] Exit");
-
-                System.out.println("\nEnter: ");
-                input = scan.next().charAt(0);
-                switch (input) {
-                    case '1':
-                        System.out.println(customerService.getCustomerDAO().findAll());
-                        break;
-                    case '2':
-                        break;
-                    case '3':
-                        break;
-                    case '4':
-                        break;
-                    case 'x':
-                        break exit;
-                    default:
-                        System.out.println("\nInvalid input!");
-                        break;
-                }
-            }
         }
     }
 }

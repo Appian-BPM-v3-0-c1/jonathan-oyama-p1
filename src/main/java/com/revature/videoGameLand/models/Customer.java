@@ -13,6 +13,7 @@ public class Customer {
     private String city;
     private String state;
     private int zipCode;
+    private int cartNumber;
 
     public Customer() {
     }
@@ -30,6 +31,7 @@ public class Customer {
         this.city = city;
         this.state = state;
         this.zipCode = zipCode;
+        this.cartNumber = cartNumber;
     }
 
     public int getId() {
@@ -123,6 +125,11 @@ public class Customer {
     public void setZipCode(int zipCode) {
         this.zipCode = zipCode;
     }
+
+    public int getCartNumber() { return cartNumber;}
+
+    public void setCartNumber(int cartNumber) {this.cartNumber = cartNumber;}
+
     @Override
     public String toString() {
         return "\n\nID: " + id +

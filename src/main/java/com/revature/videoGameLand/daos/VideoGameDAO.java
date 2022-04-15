@@ -17,7 +17,7 @@ public class VideoGameDAO implements CrudDAO<VideoGame> {
     public int save(VideoGame newObj) {
         int n = 0;
         try {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO videogames (name, stock, price, console, dept_id) VALUES (?, ?, ?, ?, ?)");
+            PreparedStatement ps = con.prepareStatement("INSERT INTO videogame (name, stock, price, console, dept_id) VALUES (?, ?, ?, ?, ?)");
             ps.setString(1, newObj.getName());
             ps.setInt(2, newObj.getStock());
             ps.setFloat(3, newObj.getPrice());
@@ -36,7 +36,7 @@ public class VideoGameDAO implements CrudDAO<VideoGame> {
         List<VideoGame> videoGameList = new ArrayList<>();
 
         try {
-            PreparedStatement ps = con.prepareStatement("SELECT * FROM videogames");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM videogame");
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {

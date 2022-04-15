@@ -17,7 +17,9 @@ public class CustomerDAO implements CrudDAO<Customer>{
     public int save(Customer newObj) {
         int n = 0;
         try {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO customers (manager, firstname, lastname, email, username, password, housenumber, streetname, city, state, zipcode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement ps = con.prepareStatement("INSERT INTO customer (manager, firstname, lastname, " +
+                    "email, username, password, housenumber, streetname, city, state, zipcode, cartnumber" +
+                    ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             ps.setBoolean(1, newObj.isManager());
             ps.setString(2, newObj.getFirstName());
             ps.setString(3, newObj.getLastName());
@@ -29,6 +31,7 @@ public class CustomerDAO implements CrudDAO<Customer>{
             ps.setString(9, newObj.getCity());
             ps.setString(10, newObj.getState());
             ps.setInt(11, newObj.getZipCode());
+            ps.setInt(12, newObj.getCartNumber());
 
             n = ps.executeUpdate();
         } catch (SQLException e) {
@@ -41,7 +44,7 @@ public class CustomerDAO implements CrudDAO<Customer>{
     public List<Customer> findAll() {
         List<Customer> customerList = new ArrayList<>();
 
-        try {PreparedStatement ps = con.prepareStatement("SELECT * FROM customers");
+        try {PreparedStatement ps = con.prepareStatement("SELECT * FROM customer");
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -59,6 +62,7 @@ public class CustomerDAO implements CrudDAO<Customer>{
                 customer.setCity(rs.getString("city"));
                 customer.setState(rs.getString("state"));
                 customer.setZipCode(rs.getInt("zipcode"));
+                customer.setCartNumber(rs.getInt("cartnumber"));
 
                 customerList.add(customer);
             }
@@ -115,7 +119,7 @@ public class CustomerDAO implements CrudDAO<Customer>{
     public List<String> findAllUsernames() {
         List<String> username_list = new ArrayList<>();
         try {
-            PreparedStatement ps = con.prepareStatement("SELECT (username) FROM customers");
+            PreparedStatement ps = con.prepareStatement("SELECT (username) FROM customer");
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -131,7 +135,7 @@ public class CustomerDAO implements CrudDAO<Customer>{
         int id = 0;
 
         try {
-            PreparedStatement ps = con.prepareStatement("SELECT (id) FROM customers where username = ?");
+            PreparedStatement ps = con.prepareStatement("SELECT (id) FROM customer where username = ?");
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
 
@@ -147,7 +151,7 @@ public class CustomerDAO implements CrudDAO<Customer>{
     public boolean getManager(String username) {
         boolean managerPass = false;
         try {
-            PreparedStatement ps = con.prepareStatement("SELECT (manager) FROM customers where username = ?");
+            PreparedStatement ps = con.prepareStatement("SELECT (manager) FROM customer where username = ?");
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
 
@@ -159,5 +163,21 @@ public class CustomerDAO implements CrudDAO<Customer>{
             e.printStackTrace();
         }
         return managerPass;
+    }
+    public int getCartNumber(String username) {
+        int cartnumber = 0;
+        try {
+            PreparedStatement ps = con.prepareStatement("SELECT (cartnumber) FROM customer where username = ?");
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                cartnumber = rs.getInt("cartnumber");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cartnumber;
     }
 }
