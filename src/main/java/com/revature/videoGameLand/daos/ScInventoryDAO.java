@@ -71,6 +71,16 @@ public class ScInventoryDAO implements CrudDAO<ScInventory> {
 
     @Override
     public boolean update(ScInventory updatedObj) {
+        try {
+            PreparedStatement ps = con.prepareStatement("UPDATE scinventory SET " +
+                    "name = ?, price = ?, quantity = ?");
+            ps.setString(1, updatedObj.getName());
+            ps.setFloat(2, updatedObj.getPrice());
+            ps.setInt(3, updatedObj.getQuantity());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return false;
     }
 

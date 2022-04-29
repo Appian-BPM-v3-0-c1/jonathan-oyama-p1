@@ -1,8 +1,6 @@
 package com.revature.videoGameLand.ui;
 
-import com.revature.videoGameLand.models.Customer;
-import com.revature.videoGameLand.models.ScInventory;
-import com.revature.videoGameLand.models.ShoppingCart;
+import com.revature.videoGameLand.models.*;
 import com.revature.videoGameLand.services.*;
 
 import java.util.Scanner;
@@ -63,12 +61,17 @@ public class MainMenu implements IMenu {
                 case '1':
                     ShoppingCart shoppingCart = new ShoppingCart();
                     ScInventory scInventory = new ScInventory();
+                    OrderHistory orderHistory = new OrderHistory();
+                    OInventory oInventory = new OInventory();
                     String passedId = Integer.toString(customer.getId());
                     shoppingCart = shoppingCartService.getShoppingCartDAO().findById(passedId);
                     scInventory = scInventoryService.getScInventoryDAO().findById(passedId);
+                    orderHistory = orderHistoryService.getOrderHistoryDAO().findById(passedId);
+                    oInventory = oInventoryService.getOInventoryDAO().findById(passedId);
                     new VideoGameMenu(shoppingCartService, scInventoryService,
                             orderHistoryService, oInventoryService,
-                            videoGameService, customer, shoppingCart).start();
+                            videoGameService, customer, shoppingCart, scInventory,
+                            oInventory, orderHistory).start();
                     break;
                 case '2':
                     if (admin) {

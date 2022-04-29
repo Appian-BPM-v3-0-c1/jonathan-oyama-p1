@@ -15,7 +15,10 @@ public class VideoGameMenu implements IMenu {
     private final VideoGameService videoGameService;
     private final Customer customer;
     // Code to implement shopping cart
-    private final ShoppingCart shoppingCart;
+    private ShoppingCart shoppingCart;
+    private ScInventory scInventory;
+    private OInventory oInventory;
+    private OrderHistory orderHistory;
 
 
     public VideoGameMenu(ShoppingCartService shoppingCartService,
@@ -23,7 +26,9 @@ public class VideoGameMenu implements IMenu {
                          OrderHistoryService orderHistoryService,
                          OInventoryService oInventoryService,
                          VideoGameService videoGameService,
-                         Customer customer, ShoppingCart shoppingCart) {
+                         Customer customer, ShoppingCart shoppingCart,
+                         ScInventory scInventory, OInventory oInventory,
+                         OrderHistory orderHistory) {
         this.shoppingCartService = shoppingCartService;
         this.scInventoryService = scInventoryService;
         this.orderHistoryService = orderHistoryService;
@@ -31,6 +36,9 @@ public class VideoGameMenu implements IMenu {
         this.videoGameService = videoGameService;
         this.customer = customer;
         this.shoppingCart = shoppingCart;
+        this.scInventory = scInventory;
+        this.oInventory = oInventory;
+        this.orderHistory = orderHistory;
     }
 
     @Override
@@ -45,6 +53,8 @@ public class VideoGameMenu implements IMenu {
             if (customer.isManager()) {
                 System.out.println("[2] Create new video game");
             }
+            System.out.println("[3] View shopping cart");
+            //System.out.println("[4] View order history");
             System.out.println("[x] Exit");
 
             System.out.print("\nEnter: ");
@@ -63,8 +73,11 @@ public class VideoGameMenu implements IMenu {
                     }
                     break;
                 case '3':
-
+                    viewShoppingCart();
                     break;
+                //case '4':
+                //    viewOrderHistory();
+                //    break;
                 case 'x':
                     exit = true;
                     break;
@@ -130,6 +143,7 @@ public class VideoGameMenu implements IMenu {
 
     private void viewAllVideoGames() {
         int input = 0;
+        boolean exit = false;
         Scanner scan = new Scanner(System.in);
         List<VideoGame> videoGameList = videoGameService.getVideoGameDAO().findAll();
         System.out.println();
@@ -137,22 +151,90 @@ public class VideoGameMenu implements IMenu {
             System.out.println("No video games in database.");
         }
         else {
-            while (true) {
+            while (!exit) {
                 for (int i = 0; i < videoGameList.size(); i++) {
-                    System.out.println("\n[" + i + "] " + videoGameList.get(i).getName());
+                    System.out.println("\n[" + (i + 1) + "] " + videoGameList.get(i).getName());
                 }
                 System.out.println("\nSelect a video game to view amount in stock");
+                System.out.println("\n[0] Exit");
                 input = scan.nextInt();
-                if (input >= videoGameList.size()) {
+                if (input == 0) {
+                    exit = true;
+                } else if (input >= videoGameList.size() + 1) {
                     System.out.println("Invalid input.");
+                    exit = true;
                 } else {
-                    System.out.println(videoGameList.get(input));
-                    break;
+                    int itemIndex = input - 1;
+                    System.out.println(videoGameList.get(itemIndex));
+                    while (!exit) {
+                        System.out.println("\nPurchase?");
+                        System.out.println("[1] Yes");
+                        System.out.println("[2] No");
+                        input = scan.nextInt();
+                        if (input == 1){
+                            scInventory.setName(videoGameList.get(itemIndex).getName());
+                            scInventory.setPrice(videoGameList.get(itemIndex).getPrice());
+                            scInventory.setQuantity(1);
+                            scInventoryService.getScInventoryDAO().update(scInventory);
+                            shoppingCart.setTotal(shoppingCart.getTotal() + scInventory.getPrice());
+                            System.out.println("Item in shopping cart!");
+                            exit  = true;
+                            break;
+                        } else {
+                            exit  = true;
+                            break;
+                        }
+                    }
                 }
             }
         }
     }
-    private void viewShoppingCart() {
 
+    private void viewOrderHistory() {
+        orderHistory = orderHistoryService.getOrderHistoryDAO().findById(Integer.toString(customer.getId()));
+        oInventory = oInventoryService.getOInventoryDAO().findById(Integer.toString(customer.getId()));
+        if (oInventory.getQuantity() == 0) {
+            System.out.println("\nShopping cart is empty");
+        } else {
+            System.out.println(orderHistory);
+            System.out.println(oInventory);
+        }
+    }
+    private void viewShoppingCart() {
+        Scanner scan = new Scanner(System.in);
+        char input = ' ';
+        scInventory = scInventoryService.getScInventoryDAO().findById(Integer.toString(customer.getId()));
+        //orderHistory = orderHistoryService.getOrderHistoryDAO().findById(Integer.toString(customer.getId()));
+        //oInventory = oInventoryService.getOInventoryDAO().findById(Integer.toString(customer.getId()));
+        if (scInventory.getQuantity() == 0) {
+            System.out.println("\nShopping cart is empty");
+        } else {
+            System.out.println(shoppingCart);
+            System.out.println(scInventory);
+            System.out.println("\nPurchase?");
+            System.out.println("[y]");
+            System.out.println("[n]");
+            System.out.println("Enter: ");
+            input = scan.next().charAt(0);
+            switch (input) {
+                case 'y':
+                    //oInventory.setPrice(scInventory.getPrice());
+                    //oInventory.setName(scInventory.getName());
+                    //oInventory.setQuantity(scInventory.getQuantity());
+                    //orderHistory.setTotal(orderHistory.getTotal() + oInventory.getPrice());
+                    scInventory.setPrice(0);
+                    scInventory.setName("empty");
+                    scInventory.setQuantity(scInventory.getQuantity() -1);
+                    System.out.println("\nItem purchased!");
+                    scInventoryService.getScInventoryDAO().update(scInventory);
+                    break;
+                case 'n':
+                    break;
+                default:
+                    System.out.println("\nInvalid input.");
+                    break;
+
+            }
+        }
     }
 }
