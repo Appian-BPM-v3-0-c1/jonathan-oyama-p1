@@ -1,7 +1,16 @@
+FuncoLand Shopping Cart App
 # P1 Requirements
 
 ## Overwiew
-The funcoLand store app is a software that helps customers purchase products from my video game store. It is designed with functionality that make virtual shopping at our shop much simpler!
+The funcoLand shopping cart app is a software that helps customers purchase products from my video game store. It is designed with functionality that make virtual shopping at our shop much simpler!
+
+## Technologies used:
+- Java version 8
+- PostGreSQL 14
+- DBeaver
+- IntelliJ IDEA Community Edition 2021.3.3
+- pgAdmin 4
+- gitBASH
 
 ## Functionality:
 - Add a new customer
@@ -41,3 +50,6 @@ Add as much models as you would need for your design
 - Has an ER Diagram
 - Should have an ER Diagram
 - Code should have xml documentation
+
+Date started: March 28, 2022
+Date finished: April 15, 2022
